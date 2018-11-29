@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 
-import listener
+from robot_webserver_listener import listener
 
 
 class TestLiveListener(unittest.TestCase):
