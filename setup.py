@@ -4,7 +4,7 @@ from setuptools import setup
 from setuptools.command.test import test as TestCommand
 
 
-PYTEST_ARGS = '--cov=robot_webserver_listener --junitxml results.xml --color=yes test'
+PYTEST_ARGS = '--cov=robot_webserver --junitxml results.xml --color=yes test'
 
 
 class PyTest(TestCommand):
@@ -21,7 +21,7 @@ class PyTest(TestCommand):
 setup(
     name='robotframework-webserver-listener',
     version='',
-    packages=['robot_webserver_listener'],
+    packages=['robot_webserver'],
     url='',
     license='',
     author='jamoh',

@@ -37,7 +37,7 @@ def init_event():
     return {'event': INIT_EVENT}
 
 
-class LiveListener:
+class RestListener:
     ROBOT_LISTENER_API_VERSION = 2
 
     def __init__(self, host, port):

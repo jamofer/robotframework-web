@@ -1,13 +1,13 @@
 import unittest
 from unittest.mock import patch
 
-from robot_webserver_listener import listener
+from robot_webserver import rest_listener
 
 
-class TestLiveListener(unittest.TestCase):
+class TestRestListener(unittest.TestCase):
     def setUp(self):
         self.post = patch('requests.post').start()
-        self.robot_listener = listener.LiveListener('host', 1234)
+        self.robot_listener = rest_listener.RestListener('host', 1234)
 
     def tearDown(self):
         patch.stopall()
