@@ -1,0 +1,9 @@
+.*
+!.gitignore
+*.pyc
+venv
+log.html
+report.html
+results.xml
+output.xml
+*.egg-info
