@@ -1,0 +1,243 @@
+openapi: "3.0.0"
+info:
+  title: RobotFramework web report
+  version: 0.1
+paths:
+  /executions:
+    get:
+      operationId: getExecutions
+      summary: Gets robot executions. By default it returns last executions.
+      parameters:
+        - in: query
+          name: by_name
+          schema:
+            type: string
+            example: nigthly_regression
+      responses:
+        '200':
+          description: |-
+            200 response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GetRobotExecutionResponseShort'
+    post:
+      operationId: newExecution
+      summary: Creates new robot execution
+      responses:
+        '200':
+          description:
+            returns RobotExecution ID
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: 25
+  /executions/{id}:
+    get:
+      operationId: getExecution
+      summary: Gets full robot execution
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: |-
+            200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetRobotExecutionResponseFull'
+
+components:
+  schemas:
+    RobotExecution:
+      type: object
+      required:
+        - name
+        - path
+        - author
+      properties:
+        name:
+          type: string
+          example: 'Login testplan'
+        path:
+          type: string
+          example: 'robot/suites/login.robot'
+        status:
+          type: string
+          enum: ["running", "finished", 'passed', 'failed']
+        tests_passed:
+          type: integer
+        tests_failed:
+          type: integer
+        total_tests:
+          type: integer
+        time_start:
+          type: string
+          format: date-time
+        time_end:
+          type: string
+          format: date-time
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attachment'
+        author:
+          $ref: '#/components/schemas/Author'
+
+    Attachment:
+      type: object
+      required:
+        - name
+        - url
+        - upload_time
+      properties:
+        name:
+          type: string
+        url:
+          type: string
+          format: uri
+        upload_time:
+          type: string
+          format: date-time
+
+    Author:
+      type: object
+      properties:
+        name:
+          type: string
+        ip_origin:
+          type: string
+          format: ipv4
+
+    GetRobotExecutionResponseShort:
+      allOf:
+        - $ref: '#/components/schemas/RobotExecution'
+        - type: object
+          properties:
+            test_cases:
+              type: object
+              properties:
+
+
+    GetRobotExecutionResponseFull:
+      allOf:
+        - $ref: '#/components/schemas/RobotExecution'
+        - type: object
+          properties:
+            test_results:
+             $ref: '#/components/schemas/TestSuite'
+
+    TestSuite:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        setup:
+          $ref: '#/components/schemas/Keyword'
+        teardown:
+          $ref: '#/components/schemas/Keyword'
+        suites:
+          type: array
+          items:
+            $ref: '#/components/schemas/TestSuite'
+        test_cases:
+          type: array
+          items:
+            $ref: '#/components/schemas/TestCase'
+        keywords:
+          type: array
+          items:
+            $ref: '#/components/schemas/Keyword'
+        status:
+          type: string
+          enum: ['not_running', 'running', 'passed', 'failed']
+        time_start:
+          type: string
+          format: date-time
+        time_end:
+          type: string
+          format: date-time
+
+    TestCase:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        setup:
+          $ref: '#/components/schemas/Keyword'
+        teardown:
+          $ref: '#/components/schemas/Keyword'
+        keywords:
+          type: array
+          items:
+            $ref: '#/components/schemas/Keyword'
+        status:
+          type: string
+          enum: ['not_running', 'running', 'passed', 'failed']
+        time_start:
+          type: string
+          format: date-time
+        time_end:
+          type: string
+          format: date-time
+        result_summary:
+          type: string
+          format: html
+        problems:
+          type: string
+          format: html
+
+    Keyword:
+      type: object
+      properties:
+        name:
+          type: string
+        arguments:
+          type: array
+          items:
+            $ref: '#/components/schemas/KeywordArgument'
+        status:
+          type: string
+          enum: ['not_running', 'running', 'passed', 'failed']
+        time_start:
+          type: string
+          format: date-time
+        time_end:
+          type: string
+          format: date-time
+        log_messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/LogMessage'
+
+    KeywordArgument:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+
+    LogMessage:
+      type: object
+      properties:
+        message:
+          type: string
+          format: html
+        log_level:
+          type: string
+          enum: ['trace', 'devel', 'info', 'warning', 'error', 'critical']
+        date_time:
+          type: string
+          format: datetime

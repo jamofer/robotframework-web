@@ -4,7 +4,7 @@ from setuptools import setup
 from setuptools.command.test import test as TestCommand
 
 
-PYTEST_ARGS = '--cov=robot_webserver --junitxml results.xml --color=yes test'
+PYTEST_ARGS = '--cov=robotframework_rest_listener --junitxml results.xml --color=yes test'
 
 
 class PyTest(TestCommand):
@@ -19,15 +19,15 @@ class PyTest(TestCommand):
 
 
 setup(
-    name='robotframework-webserver-listener',
+    name='robotframework-web',
     version='',
-    packages=['robot_webserver'],
+    packages=['robotframework_rest_listener'],
     url='',
     license='',
     author='jamoh',
     author_email='',
     description='',
-    install_requires=['requests', 'mock'],
+    install_requires=['simple_websocket_server', 'mock'],
     tests_require=['pytest', 'pytest-cov', 'pytest-remove-stale-bytecode'],
     cmdclass={'test': PyTest}
 )

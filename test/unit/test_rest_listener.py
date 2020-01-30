@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 
-from robot_webserver import rest_listener
+from robotframework_rest_listener import rest_listener
 
 
 class TestRestListener(unittest.TestCase):
@@ -12,7 +12,7 @@ class TestRestListener(unittest.TestCase):
     def tearDown(self):
         patch.stopall()
 
-    def test_should_forward_to_web_server_a_start_suite_event_in_json_format(self):
+    def test_should_forward_to_web_server_start_suite_event_in_json_format(self):
         # When
         self.robot_listener.start_suite('Suite1', {'dummy': None})
         # Then
@@ -27,7 +27,7 @@ class TestRestListener(unittest.TestCase):
             }
         )
 
-    def test_should_forward_to_web_server_a_end_suite_event_in_json_format(self):
+    def test_should_forward_to_web_server_end_suite_event_in_json_format(self):
         # When
         self.robot_listener.end_suite('Suite1', {'a': 1})
         # Then
@@ -42,7 +42,7 @@ class TestRestListener(unittest.TestCase):
             }
         )
 
-    def test_should_forward_to_web_server_a_start_test_event_in_json_format(self):
+    def test_should_forward_to_web_server_start_test_event_in_json_format(self):
         # When
         self.robot_listener.start_test('Test 1', {'critical': False})
         # Then
@@ -57,7 +57,7 @@ class TestRestListener(unittest.TestCase):
             }
         )
 
-    def test_should_forward_to_web_server_a_end_test_event_in_json_format(self):
+    def test_should_forward_to_web_server_end_test_event_in_json_format(self):
         # When
         self.robot_listener.end_test('Test 1', {'critical': False})
         # Then
@@ -72,7 +72,7 @@ class TestRestListener(unittest.TestCase):
             }
         )
 
-    def test_should_forward_to_web_server_a_start_keyword_event_in_json_format(self):
+    def test_should_forward_to_web_server_start_keyword_event_in_json_format(self):
         # When
         self.robot_listener.start_keyword('Keyword 5', {'magic_level': 99})
         # Then
@@ -87,7 +87,7 @@ class TestRestListener(unittest.TestCase):
             }
         )
 
-    def test_should_forward_to_web_server_a_end_keyword_event_in_json_format(self):
+    def test_should_forward_to_web_server_end_keyword_event_in_json_format(self):
         # When
         self.robot_listener.end_keyword('Keyword 5', {'duration': 120})
         # Then
